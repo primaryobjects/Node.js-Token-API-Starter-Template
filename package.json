@@ -1,0 +1,27 @@
+{
+  "name": "invest",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "morgan": "^1.8.2"
+  },
+  "scripts": {
+    "pre-commit": "lint-staged"
+  },
+  "pre-commit": [
+    "pre-commit"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "lint-staged": "^4.0.0",
+    "pre-commit": "^1.2.2"
+  }
+}
