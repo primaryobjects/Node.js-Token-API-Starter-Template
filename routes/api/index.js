@@ -5,7 +5,7 @@ exports.index = function(req, res) {
 };
 
 exports.test = function(req, res) {
-  res.json({ message: "Hello World!" });
+  res.json({ message: "Hello, " + req.decoded.username + "!" });
 };
 
 exports.login = function(req, res) {
