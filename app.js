@@ -26,6 +26,8 @@ app.use(api.auth);
 
 // Authenticated api methods.
 app.get('/api', api.index);
+app.get('/api/method1', api.method1);
+app.get('/api/method2', api.method2);
 
 // 404 handler
 app.all('*', error.error404);
