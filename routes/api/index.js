@@ -1,60 +1,50 @@
-var jwt = require('jsonwebtoken');
-var config = require('../../config/config');
+var config = require('../../config/config'),
+  authManager = require('../../managers/authManager');
 
 exports.index = function(req, res) {
-  res.json({ message: 'Hello, ' + req.decoded.username + '!' });
+  res.json({ message: 'Hello, ' + req.auth.username + '!' });
 };
 
 exports.token = function(req, res) {
-  if (
-    req.body.username === process.env.USER &&
-    req.body.password === process.env.PASS
-  ) {
-    var user = { username: req.body.username };
-    var token = jwt.sign(user, process.env.SECRET, {
-      expiresIn: config.tokenExpirationSeconds
-    });
-
-    var expiration = new Date();
-    expiration.setSeconds(
-      expiration.getSeconds() + config.tokenExpirationSeconds
-    );
-
-    res.json({
-      success: true,
-      message: 'Authentication success.',
-      expiration: expiration,
-      token: token
-    });
-  } else {
-    res.status(401).json({ success: false, message: 'Authentication failed.' });
-  }
+  // Generate a new token.
+  AuthManager.generate(req, function(result, err) {
+    if (err) {
+      return res.status(401).send({ success: false, message: err });
+    } else {
+      return res.send({
+        success: true,
+        token: result.token,
+        expiration: result.expiration
+      });
+    }
+  });
 };
 
 exports.auth = function(req, res, next) {
-  // check header or url parameters or post parameters for token
-  var token =
-    req.body.token || req.query.token || req.headers['x-access-token'];
+  // Authenticate the token for this request.
+  AuthManager.authenticate(req, function(result, err) {
+    if (err) {
+      var output = { success: false };
+      var status = 401;
 
-  // decode token
-  if (token) {
-    // verifies secret and checks exp
-    jwt.verify(token, process.env.SECRET, function(err, decoded) {
-      if (err) {
-        return res
-          .status(401)
-          .json({ success: false, message: 'Invalid token.' });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        next();
+      switch (err.name) {
+        case 'MissingToken':
+          output.message = 'Missing token.';
+          status = 403;
+          break;
+        case 'TokenExpiredError':
+          output.message = 'Token expired.';
+          break;
+        default:
+          output.message = 'Invalid token.';
+          break;
       }
-    });
-  } else {
-    // if there is no token, return an error
-    return res.status(403).send({
-      success: false,
-      message: 'Missing token.'
-    });
-  }
+
+      return res.status(status).send(output);
+    } else {
+      // Valid token. Save the decoded information in the request for other routes to use.
+      req.auth = result;
+      next();
+    }
+  });
 };

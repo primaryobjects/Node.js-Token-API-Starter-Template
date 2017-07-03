@@ -1,11 +1,11 @@
+require('dotenv').config();
+
 var express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   api = require('./routes/api'),
   error = require('./routes/error');
-
-require('dotenv').config();
 
 var port = process.env.PORT || 8080;
 
