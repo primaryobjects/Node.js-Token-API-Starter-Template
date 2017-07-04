@@ -23,7 +23,7 @@ A quick and easy node.js template project for an API with token-based authentica
   x-access-token: abc123
   ```
 
-or
+  or
 
   ```
   /api/method1?token=abc123
