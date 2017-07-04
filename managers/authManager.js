@@ -2,12 +2,8 @@ var jwt = require('jsonwebtoken'),
   config = require('../config/config');
 
 AuthManager = {
-  generate: function(req, callback) {
-    if (
-      req.body.username === config.user.username &&
-      req.body.password === config.user.password
-    ) {
-      var user = { username: req.body.username };
+  generate: function(user, callback) {
+    if (user) {
       var token = jwt.sign(user, config.token.secret, {
         expiresIn: config.token.expiration
       });
@@ -25,11 +21,7 @@ AuthManager = {
     }
   },
 
-  authenticate: function(req, callback) {
-    // Check the header or url parameters or post parameters for a token.
-    var token =
-      req.body.token || req.query.token || req.headers[config.token.header];
-
+  authenticate: function(token, callback) {
     // Decode the token.
     if (token) {
       // Verify the secret and check the expiration time.

@@ -1,4 +1,5 @@
 var config = require('../../config/config'),
+  userManager = require('../../managers/userManager'),
   authManager = require('../../managers/authManager');
 
 exports.index = function(req, res) {
@@ -14,8 +15,11 @@ exports.method2 = function(req, res) {
 };
 
 exports.token = function(req, res) {
+  // Load the user from the database or return null if invalid. Replace this with your own method.
+  var user = UserManager.load(req.body.username, req.body.password);
+
   // Generate a new token.
-  AuthManager.generate(req, function(result, err) {
+  AuthManager.generate(user, function(result, err) {
     if (err) {
       return res.status(401).send({ success: false, message: err });
     } else {
@@ -29,8 +33,12 @@ exports.token = function(req, res) {
 };
 
 exports.auth = function(req, res, next) {
+  // Check the header or url parameters or post parameters for a token.
+  var token =
+    req.body.token || req.query.token || req.headers[config.token.header];
+
   // Authenticate the token for this request.
-  AuthManager.authenticate(req, function(result, err) {
+  AuthManager.authenticate(token, function(result, err) {
     if (err) {
       var output = { success: false };
       var status = 401;
