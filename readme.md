@@ -65,6 +65,18 @@ You can only request a new token if your existing token is due to expire within 
 
 API methods can be added as routes within [app.js](app.js#L28-L30). The code for each API method can be added within the [handler](routes/api/index.js). Several example API stub methods are provided.
 
+Here is what an example API method looks like:
+
+```js
+exports.method1 = function(req, res) {
+  res.json({
+    message: 'This is API method 1. Hello, ' + req.auth.username + '!'
+  });
+};
+```
+
+Pretty simple, right?
+
 The request object contains a variable `req.auth`, which has the user information that logged into the application. You can use this to retrieve the username and any other information about the user that you store within the token. To add other info within the token, just change the user object that gets returned from [loading](routes/auth/index.js#L7) your user.
 
 ### /api/method1
