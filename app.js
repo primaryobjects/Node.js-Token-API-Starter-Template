@@ -4,6 +4,7 @@ var express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
+  auth = require('./routes/auth'),
   api = require('./routes/api'),
   error = require('./routes/error');
 
@@ -19,13 +20,11 @@ app.get('/', function(req, res) {
   res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
 
-app.post('/api/token', api.token);
-
-// Apply token verify middleware to all routes below this line.
-app.use(api.auth);
+// Public route to authenticate a user and generate a token.
+app.post('/auth', auth.index);
 
 // Authenticated api methods.
-app.get('/api', api.index);
+app.use(auth.token);
 app.get('/api/method1', api.method1);
 app.get('/api/method2', api.method2);
 

@@ -12,7 +12,7 @@ A quick and easy node.js template project for an API with token-based authentica
 - Obtain a token.
   
   ```
-  POST /api/token
+  POST /api/auth
   { username: user, password: pass }
   ```
 
@@ -28,14 +28,13 @@ A quick and easy node.js template project for an API with token-based authentica
   ```
   /api/method1?token=abc123
   /api/method2?token=abc123
-  /api/method3?token=abc123
   ```
 
 ## Generating a Token
 
-The url `/api/token` allows you to generate an authentication token which can be used to access API methods.
+The url `/api/auth` allows you to generate an authentication token which can be used to access API methods.
 
-To generate a token, call `POST /api/token`. Include a username and password or existing valid token as a JSON object within the form data. The format is shown below.
+To generate a token, call `POST /api/auth`. Include a username and password or existing valid token as a JSON object within the form data. The format is shown below.
 
 ```
 { username: 'user', password: 'pass' }
@@ -58,7 +57,7 @@ The demo code includes a simple [method](managers/userManager.js#L4) for validat
 
 ## Keeping Track of Expiration Time
 
-Since tokens have an expiration time, the client code should keep track of when the current token expires. Before expiring, the client can request a new token by making a `POST` request to `/api/token`, including the existing token in the JSON object (instead of a username/password). Otherwise, if the token expires, the client will need to login with a username/password to obtain a new token.
+Since tokens have an expiration time, the client code should keep track of when the current token expires. Before expiring, the client can request a new token by making a `POST` request to `/api/auth`, including the existing token in the JSON object (instead of a username/password). Otherwise, if the token expires, the client will need to login with a username/password to obtain a new token.
 
 You can only request a new token if your existing token is due to expire within the next 5 minutes. This value is [configurable](config/config.js#L11).
 
