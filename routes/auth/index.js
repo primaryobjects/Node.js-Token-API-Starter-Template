@@ -19,8 +19,6 @@ exports.index = function(req, res) {
       // Remove token-specific values, keeping just the user.
       delete user.iat;
       delete user.exp;
-
-      console.log(JSON.stringify(token));
     }
 
     // Load the user from the token or the database. User is null if not found. Replace this with your own method for validating a user!
