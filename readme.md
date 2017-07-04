@@ -63,7 +63,7 @@ You can only request a new token if your existing token is due to expire within 
 
 ## Adding API Methods
 
-API methods can be added as routes within [app.js](app.js#L28-L30). The code for each API method can be added within the [handler](routes/api/index.js). Several example API stub methods are provided.
+API methods can be added as routes within [app.js](app.js#L28-L29). The code for each API method can be added within the [handler](routes/api/index.js). Several example API stub methods are provided.
 
 Here is what an example API method looks like:
 
