@@ -11,21 +11,21 @@ A quick and easy node.js template project for an API with token-based authentica
 - Browse to http://localhost:8080
 - Obtain a token.
   
-  ```
+  ```js
   POST /api/auth
   { username: user, password: pass }
   ```
 
 - Call API methods by including your token in the HTTP header or url.
 
-  ```
+  ```js
   Content-Type: application/json
   x-access-token: abc123
   ```
 
   or
 
-  ```
+  ```js
   /api/method1?token=abc123
   /api/method2?token=abc123
   ```
@@ -36,13 +36,13 @@ The url `/api/auth` allows you to generate an authentication token which can be 
 
 To generate a token, call `POST /api/auth`. Include a username and password or existing valid token as a JSON object within the form data. The format is shown below.
 
-```
+```js
 { username: 'user', password: 'pass' }
 ```
 
 or
 
-```
+```js
 { token: 'abc123' }
 ```
 
