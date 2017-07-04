@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 app.post('/auth', auth.index);
 
 // Authenticated api methods.
-app.use(auth.token);
+app.use('/api', auth.token);
 app.get('/api/method1', api.method1);
 app.get('/api/method2', api.method2);
 
