@@ -49,6 +49,10 @@ The username and password can be validated against your database or other means.
 
 The client code (i.e., your javascript application) can store the token for subsequent calls to the API. Each API call should contain the token within the url or HTTP header.
 
+## Validating a Username and Password
+
+The demo code includes a simple [method](managers/userManager.js) for validating the username and password before generating a token. The template project simply checks the username and password against the one configured in [config.js](config/config.js). You'll probably want to change this to check against your database or other method for validating a user. Just edit the code in the [token](routes/index.js) method to call your own method for validating the user.
+
 ## Keeping Track of Expiration Time
 
 Since tokens have an expiration time, the client code should keep track of when the current token expires. Before expiring, the client can request a new token by making a `POST` request to `/api/token`, including the existing token in the JSON object (instead of a username/password). Otherwise, if the token expires, the client will need to login with a username/password to obtain a new token.
