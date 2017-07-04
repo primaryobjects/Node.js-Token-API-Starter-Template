@@ -57,9 +57,9 @@ The demo code includes a simple [method](managers/userManager.js#L4) for validat
 
 ## Keeping Track of Expiration Time
 
-Since tokens have an expiration time, the client code should keep track of when the current token expires. Before expiring, the client can request a new token by making a `POST` request to `/api/auth`, including the existing token in the JSON object (instead of a username/password). Otherwise, if the token expires, the client will need to login with a username/password to obtain a new token.
+By [default](config/config.js#L11), tokens expire after 20 minutes.
 
-You can only request a new token if your existing token is due to expire within the next 5 minutes. This value is [configurable](config/config.js#L11).
+Since tokens have an expiration time, the client code should keep track of when the current token expires. Before expiring, the client can request a new token by making a `POST` request to `/api/auth`, including the existing token in the HTTP header or url (in place of sending a username/password in the post data). Otherwise, if the token expires, the client will need to login with a username/password to obtain a new token.
 
 ## Adding API Methods
 
