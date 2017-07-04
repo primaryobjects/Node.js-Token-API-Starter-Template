@@ -53,7 +53,7 @@ Your code can store the token for subsequent calls to the API. Each API call sho
 
 ## Validating a Username and Password
 
-The demo code includes a simple [method](managers/userManager.js#L4) for validating the username and password before generating a token. The template project simply checks the username and password against the one [configured](config/config.js#L6-L7). You'll probably want to [change](routes/api/index.js#L19) this to check against your database or other method for validating a user.
+The demo code includes a simple [method](managers/userManager.js#L4) for validating the username and password before generating a token. The template project simply checks the username and password against the one [configured](config/config.js#L6-L7). You'll probably want to [change](routes/auth/index.js#L7) this to check against your database or other method for validating a user.
 
 ## Keeping Track of Expiration Time
 
@@ -63,7 +63,9 @@ You can only request a new token if your existing token is due to expire within 
 
 ## Adding API Methods
 
-API methods can be added as routes within [app.js](app.js#L28-L30). The code for each API method can be added within the route handler code [index.js](routes/api/index.js). Several example API stub methods are provided.
+API methods can be added as routes within [app.js](app.js#L28-L30). The code for each API method can be added within the [handler](routes/api/index.js). Several example API stub methods are provided.
+
+The request object contains a variable `req.auth`, which has the user information that logged into the application. You can use this to retrieve the username and any other information about the user that you store within the token. To add other info within the token, just change the user object that gets returned from [loading](routes/auth/index.js#L7) your user.
 
 ### /api/method1
 
@@ -72,6 +74,12 @@ Example API method 1. This method requires a valid token.
 ### /api/method2
 
 Example API method 2. This method requires a valid token.
+
+## Notes on Security
+
+Notice in the [configuration](config/config.js#L6) file that the application uses `process.env.VARIABLE_NAME` to store sensitive values, such as the username, password, and token key. These values are passed into the node.js application at run-time via the command-line. This application is using the handy library [dotenv](https://www.npmjs.com/package/dotenv) to load values from `.env` instead of the command-line. This makes it easier to run the app during development.
+
+If you want to keep the same process.env variables in your configuration, just make sure to provide those values when deploying to your server (i.e., Heroku [config variables](https://devcenter.heroku.com/articles/config-vars), etc).
 
 ## License
 
