@@ -34,18 +34,13 @@ A quick and easy node.js template project for an API with token-based authentica
 
 The url `/api/auth` allows you to generate an authentication token which can be used to access API methods.
 
-To generate a token, call `POST /api/auth`. Include a username and password or existing valid token as a JSON object within the form data. The format is shown below.
+To generate a token, call `POST /api/auth`. Include a username and password as a JSON object within the form data. The format is shown below. 
 
 ```js
 { username: 'user', password: 'pass' }
 ```
 
-or
-
-```js
-{ token: 'abc123' }
-```
-
+You can also generate a token by including an existing valid token in the HTTP header or url.
 
 The username and password can be validated against your database or other means. If successful, a [JSON web token](https://www.npmjs.com/package/json-web-token) is returned in the response. The token contains an expiration time as [configured](config/config.js#L11).
 
