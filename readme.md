@@ -53,7 +53,7 @@ Your code can store the token for subsequent calls to the API. Each API call sho
 
 ## Validating a Username and Password
 
-The demo code includes a simple [method](managers/userManager.js#L4) for validating the username and password before generating a token. The template project simply checks the username and password against the one [configured](config/config.js#L6-L7). You'll probably want to [change](routes/auth/index.js#L7) this to check against your database or other method for validating a user.
+The demo code includes a simple [method](managers/userManager.js#L4) for validating the username and password before generating a token. The template project simply checks the username and password against the one [configured](config/config.js#L6-L7). You'll probably want to [change](routes/auth/index.js#L27) this to check against your database or other method for validating a user.
 
 ## Keeping Track of Expiration Time
 
@@ -77,7 +77,7 @@ exports.method1 = function(req, res) {
 
 Pretty simple, right?
 
-The request object contains a variable `req.auth`, which has the user information that logged into the application. You can use this to retrieve the username and any other information about the user that you store within the token. To add other info within the token, just change the user object that gets returned from [loading](routes/auth/index.js#L7) your user.
+The request object contains a variable `req.auth`, which has the user information that logged into the application. You can use this to retrieve the username and any other information about the user that you store within the token. To add other info within the token, just change the user object that gets returned from [loading](routes/auth/index.js#L27) your user.
 
 ### /api/method1
 
