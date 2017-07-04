@@ -1,6 +1,7 @@
 {
-  "name": "invest",
-  "main": "app.js",
+  "name": "node-token-api",
+  "version": "0.0.1",
+ "main": "app.js",
   "dependencies": {
     "body-parser": "^1.17.2",
     "dotenv": "^4.0.0",
