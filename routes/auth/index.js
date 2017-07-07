@@ -9,7 +9,7 @@ var getToken = function(req) {
 
 exports.index = function(req, res) {
   // Try to load the user from an existing token.
-  AuthManager.authenticate(getToken(req), function(token, err) {
+  AuthManager.authenticate(getToken(req), function(err, token) {
     var user = null;
 
     if (!err) {
@@ -25,7 +25,7 @@ exports.index = function(req, res) {
     user = user || UserManager.load(req.body.username, req.body.password);
 
     // Generate a new token.
-    AuthManager.generate(user, function(result, err) {
+    AuthManager.generate(user, function(err, result) {
       if (err) {
         return res.status(401).send({ success: false, message: err });
       } else {
@@ -41,7 +41,7 @@ exports.index = function(req, res) {
 
 exports.token = function(req, res, next) {
   // Authenticate the token for this request.
-  AuthManager.authenticate(getToken(req), function(result, err) {
+  AuthManager.authenticate(getToken(req), function(err, result) {
     if (err) {
       var output = { success: false };
       var status = 401;

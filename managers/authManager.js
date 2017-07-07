@@ -12,11 +12,11 @@ AuthManager = {
       expiration.setSeconds(expiration.getSeconds() + config.token.expiration);
 
       if (callback) {
-        callback({ token: token, expiration: expiration });
+        callback(null, { token: token, expiration: expiration });
       }
     } else {
       if (callback) {
-        callback(null, 'Authentication failed.');
+        callback('Authentication failed.');
       }
     }
   },
@@ -30,19 +30,19 @@ AuthManager = {
 
         if (err) {
           if (callback) {
-            callback(null, err);
+            callback({ name: 'InvalidToken', message: 'Invalid token.' });
           }
         } else {
           // Valid token.
           if (callback) {
-            callback(payload);
+            callback(null, payload);
           }
         }
       });
     } else {
       // If no token is provided, return an error.
       if (callback) {
-        callback(null, { name: 'MissingToken', message: 'Missing token.' });
+        callback({ name: 'MissingToken', message: 'Missing token.' });
       }
     }
   }
